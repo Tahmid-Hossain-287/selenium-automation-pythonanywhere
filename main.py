@@ -12,14 +12,18 @@ actions = action_chains.ActionChains(driver)
 
 
 try:
-    login = WebDriverWait(driver, 10).until(
+    # Finds the link that takes to the login page.
+    login_page = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "login_link"))
-    )
+    )  
     print(f'The type of login is {type(login)}')
-    login.click()
-    time.sleep(5)
-    driver.save_screenshot('screenshot.png')
-    driver.quit()
+
+    # Clicks on the link taking us to the login page.
+    login_page.click()  
+    
+    
+    
+    # driver.quit()
 
 except Exception as e:
     print(e)
