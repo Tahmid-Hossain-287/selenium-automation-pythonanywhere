@@ -1,4 +1,4 @@
-import os, time
+import os
 from selenium import webdriver
 from selenium.webdriver.common import action_chains
 from selenium.webdriver.common.by import By
@@ -40,3 +40,8 @@ except Exception as e:
 
 finally:
     print('Code ran without any error.')
+
+
+
+# Store password and usrname securely(probably as environemntal variables?).
+# If environment variables are not found, then ask for username and password.
