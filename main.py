@@ -1,47 +1,98 @@
-import os
+import os, time
 from selenium import webdriver
 from selenium.webdriver.common import action_chains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-driver = webdriver.Edge(r'./web_driver/msedgedriver.exe')
-
-driver.get('https://www.pythonanywhere.com')
-actions = action_chains.ActionChains(driver)
-
 
 try:
-    # Finds the link that takes to the login page.
-    login_page = WebDriverWait(driver, 10).until(   
-        EC.presence_of_element_located(
-            (By.CLASS_NAME, "login_link")
-        )
-    )  
-    print(f'The type of login is {type(login_page)}')
-
-    # Clicks on the link taking us to the login page.
-    login_page.click()  
-
-    # Selects the username part of form.
-    username_form = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "id_auth-username")))
+    driver = webdriver.Edge(r'./web_driver/msedgedriver.exe')
+    actions = action_chains.ActionChains(driver)
+    driver.set_window_size(1260, 905) # Resizes the window to a specific size.
     
-    # Selects the password part of form.
-    password_form = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "id_auth-password")))
-    
-    username_form.send_keys('Tahmid Hossain')
-    password_form.send_keys('Password')
-    
-    # driver.quit()
-
 except Exception as e:
+    print('A problem occured while instantiating the driver ')
     print(e)
-    driver.quit()
 
-finally:
-    print('Code ran without any error.')
-
+else:
+    print('Driver instantiated successfully')
 
 
-# Store password and usrname securely(probably as environemntal variables?).
-# If environment variables are not found, then ask for username and password.
+def launch_login_page():
+    # This function launches the login page of pythonanywhere.com website.
+    try:
+        driver.get('https://www.pythonanywhere.com')
+        
+        # Finds the link that takes to the login page.
+        login_page =  WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, "login_link")
+            )
+        )
+
+        # Clicks on the link taking us to the login page.
+        login_page.click()  	
+
+    except Exception as e:
+        print('A problem occured at launch_login_page funciton.')
+        print(e)
+        driver.quit()
+
+    else:
+        print('Login page launched successfully')
+        
+
+def login_with_credentials(username=None, password=None):
+    if username is None:
+        username = input('Give your username ')
+    if password is None:
+        password = input('Give your password ')
+
+
+    try:
+        # Selects the username part of form.
+        username_form = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.ID, "id_auth-username")
+            )
+        )
+
+
+        # Selects the password part of form.
+        password_form = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.ID, "id_auth-password")
+            )
+        )
+
+        # Writes the credentials required to login.
+        username_form.send_keys(username)
+        password_form.send_keys(password)
+    
+        # Identifies the login button of the web page.
+        login_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.ID, 'id_next')
+            )
+        ) 
+
+        # Clicks the login button to login.
+        login_button.click()
+
+
+    except Exception as e:
+        print('A problem was encountered at the login_with_credentials function. ')
+        print(e)
+        driver.quit()
+
+    else:
+        print('Successfully logged in')
+
+
+def main():
+    launch_login_page()
+    login_with_credentials('Tahmid Hossain', 'yo yo yo y o')
+
+
+main()
