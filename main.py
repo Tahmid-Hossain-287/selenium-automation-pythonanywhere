@@ -42,12 +42,12 @@ def launch_login_page():
     else:
         print('Login page launched successfully')
         
-
+# This function takes username and password and then logs in.
 def login_with_credentials(username=None, password=None):
-    if username is None:
-        username = input('Give your username ')
-    if password is None:
-        password = input('Give your password ')
+    if all([username, password]) is False:
+        username = input("Please enter your username or email.")
+        password = input("Please enter your password.")    
+
 
 
     try:
@@ -77,8 +77,11 @@ def login_with_credentials(username=None, password=None):
             )
         ) 
 
+
         # Clicks the login button to login.
         login_button.click()
+
+        
 
 
     except Exception as e:
@@ -92,7 +95,7 @@ def login_with_credentials(username=None, password=None):
 
 def main():
     launch_login_page()
-    login_with_credentials('Tahmid Hossain', 'yo yo yo y o')
+    login_with_credentials(os.getenv('pythonanywhere_username', default=None), os.getenv('pythonanywhere_password', default=None))
 
 
 main()
