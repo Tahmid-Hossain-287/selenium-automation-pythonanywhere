@@ -10,6 +10,8 @@ try:
     driver = webdriver.Edge(r'./web_driver/msedgedriver.exe')
     actions = action_chains.ActionChains(driver)
     driver.set_window_size(1260, 905) # Resizes the window to a specific size.
+    driver.set_window_position(250, 70, windowHandle='current')
+
     
 except Exception as e:
     print('A problem occured while instantiating the driver ')
@@ -20,7 +22,7 @@ else:
 
 
 def launch_login_page():
-    # This function launches the login page of pythonanywhere.com website.
+    ''' This function launches the login page of pythonanywhere.com website. '''
     try:
         driver.get('https://www.pythonanywhere.com')
         
@@ -42,8 +44,9 @@ def launch_login_page():
     else:
         print('Login page launched successfully')
         
-# This function takes username and password and then logs in.
+
 def login_with_credentials(username=None, password=None):
+    ''' This function takes username and password and then logs in. '''
     if all([username, password]) is False:
         username = input("Please enter your username or email.")
         password = input("Please enter your password.")    
@@ -77,12 +80,22 @@ def login_with_credentials(username=None, password=None):
             )
         ) 
 
-
+        
         # Clicks the login button to login.
         login_button.click()
 
-        
+        welcome_text = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located(
+                (By.CLASS_NAME, "page-header")
+            )
+        ).text
 
+        
+        # Checks for the text usually one finds after loggin in.
+        if 'Dashboard' or 'Welcome' in welcome_text:
+            print('Logged in successfully.')
+        
+        
 
     except Exception as e:
         print('A problem was encountered at the login_with_credentials function. ')
@@ -90,7 +103,13 @@ def login_with_credentials(username=None, password=None):
         driver.quit()
 
     else:
-        print('Successfully logged in')
+        print('Login successful.')
+
+
+def update_uptime():
+    ''' Updates the uptime of website by clicking the necessary button. '''
+    pass
+
 
 
 def main():
