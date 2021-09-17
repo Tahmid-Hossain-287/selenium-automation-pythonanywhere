@@ -4,6 +4,7 @@ from selenium.webdriver.common import action_chains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import traceback
 
 
 try:
@@ -13,9 +14,9 @@ try:
     driver.set_window_position(250, 70, windowHandle='current')
 
     
-except Exception as e:
+except Exception:
     print('A problem occured while instantiating the driver ')
-    print(e)
+    traceback.print_exc()
 
 else:
     print('Driver instantiated successfully')
@@ -36,9 +37,9 @@ def launch_login_page():
         # Clicks on the link taking us to the login page.
         login_page.click()  	
 
-    except Exception as e:
+    except Exception:
         print('A problem occured at launch_login_page funciton.')
-        print(e)
+        traceback.print_exc()
         driver.quit()
 
     else:
@@ -97,9 +98,9 @@ def login_with_credentials(username=None, password=None):
         
         
 
-    except Exception as e:
+    except Exception:
         print('A problem was encountered at the login_with_credentials function. ')
-        print(e)
+        traceback.print_exc()
         driver.quit()
 
     else:
@@ -108,13 +109,59 @@ def login_with_credentials(username=None, password=None):
 
 def update_uptime():
     ''' Updates the uptime of website by clicking the necessary button. '''
-    pass
+    
+    try:
+        web_window = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.ID, 'id_web_app_link')
+            )
+        )
 
+        web_window.click()
 
+        update_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, 'btn.btn-warning.webapp_extend')
+            )
+        )
 
+        
+        old_web_app_expiry_date = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, 'webapp_expiry')
+            )
+        )
+
+        print(f'\n \n The old expiration date: \n {old_web_app_expiry_date.text} \n \n ')
+
+        update_button.click()
+
+        new_web_app_expiry_date = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, 'webapp_expiry')
+            )
+        )
+
+        print(f'\n \n The new expiration date: \n {new_web_app_expiry_date.text} \n \n ')        
+
+        
+
+    except Exception:
+        print('A problem occured at the update_uptime function')
+        traceback.print_exc()
+        driver.quit()
+        
+
+    else:
+        print('update_uptime function was successful.')
+    
+    
 def main():
     launch_login_page()
     login_with_credentials(os.getenv('pythonanywhere_username', default=None), os.getenv('pythonanywhere_password', default=None))
-
+    update_uptime()
 
 main()
+
+
+#id_tahmidhossain87_pythonanywhere_com > div:nth-child(7) > div > div > div > form > input.btn.btn-warning.webapp_extend
