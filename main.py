@@ -143,7 +143,7 @@ def update_uptime():
         )
 
         print(f'\n \n The new expiration date: \n {new_web_app_expiry_date.text} \n \n ')        
-
+        driver.quit()
         
 
     except Exception:
@@ -154,7 +154,7 @@ def update_uptime():
 
     else:
         print('update_uptime function was successful.')
-    
+        
     
 def main():
     launch_login_page()
