@@ -1,3 +1,5 @@
 About selenium:
 1. While catching items using the By class, use . instead of space if the locator of the element has spaces.
 For example, 'btn.btn-warning.webpage-extend' instead of 'btn btn-warning webpage_extend'.
+
+2. Go for the absolute path rather than the relative path.
