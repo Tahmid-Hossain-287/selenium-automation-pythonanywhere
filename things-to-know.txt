@@ -3,3 +3,11 @@ About selenium:
 For example, 'btn.btn-warning.webpage-extend' instead of 'btn btn-warning webpage_extend'.
 
 2. Go for the absolute path rather than the relative path.
+
+
+note for tomorrow
+
+made code such a way that it downloads necessary driver on its own.
+completed storing cookies so that log in info is saved. don't have to login again and again. make sure to specify absolute path for the 
+cookies location.
+

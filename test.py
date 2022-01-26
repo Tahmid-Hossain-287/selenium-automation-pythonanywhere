@@ -12,14 +12,16 @@ import traceback
 
 
 options = Options()
-options.add_argument("--user-data-dir=C:\\Users\\Tahmid\\Programming\\automation\\cookies")
+options.add_argument("--user-data-dir=C:\\Users\\Tahmid\\Programming\\automation\\cookies") # Stores the coolies in this directory. Works when absolute path is specified.
 # options.add_argument("user-data-dir=\\cookies")
 # driver = webdriver.Chrome(r'./web_driver/chromedriver.exe', options=options)
+os.environ['WDM_LOG_LEVEL'] = '0'
+os.environ['WDM_LOCAL'] = '1'
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 actions = action_chains.ActionChains(driver)
 driver.set_window_size(1260, 905) # Resizes the window to a specific size.
 driver.set_window_position(250, 70, windowHandle='current')
-    
+
 print('Driver instantiated successfully')
 print(type(driver))
 
@@ -53,7 +55,6 @@ def launch_login_page():
     except Exception:
         print('A problem occured at launch_login_page funciton.')
         traceback.print_exc()
-        driver.quit()
 
     else:
         print('Login page launched successfully')
@@ -100,7 +101,6 @@ def login_with_credentials(username=None, password=None):
     except Exception:
         print('A problem was encountered at the login_with_credentials function. ')
         traceback.print_exc()
-        driver.quit()
 
     else:
         print('Login successful.')
