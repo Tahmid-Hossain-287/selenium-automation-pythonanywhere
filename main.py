@@ -5,10 +5,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import traceback
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
 try:
-    driver = webdriver.Edge(r'./web_driver/msedgedriver.exe')
+    # driver = webdriver.Edge(r'./web_driver/msedgedriver.exe')
+    driver = webdriver.Edge(EdgeChromiumDriverManager().install())
     actions = action_chains.ActionChains(driver)
     driver.set_window_size(1260, 905) # Resizes the window to a specific size.
     driver.set_window_position(250, 70, windowHandle='current')
